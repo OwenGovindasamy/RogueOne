@@ -1,8 +1,11 @@
+using RogueOne.Interfaces;
+using RogueOne.Logic;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddScoped<IInstagramLooter, InstagramLooter>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
