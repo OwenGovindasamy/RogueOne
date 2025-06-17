@@ -23,9 +23,9 @@ namespace RogueOne.Controllers
             return View();
         }
 
-        public async Task<UserDescription> GetUserId()
+        public async Task<UserDescription> GetUserId(string username)
         {
-            UserDescription userDetails = await _instagramLooter.GetUserId("fal13n1");
+            UserDescription userDetails = await _instagramLooter.GetUserId(username);
 
             return (userDetails);
         }
