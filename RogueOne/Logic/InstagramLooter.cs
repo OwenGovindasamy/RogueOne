@@ -23,7 +23,7 @@ namespace RogueOne.Logic
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Get,
-                RequestUri = new Uri($"{_rapidApiUri}={username}")
+                RequestUri = new Uri($"{_rapidApiUri}id?username={username}")
             };
 
             using (var response = await _httpClient.SendAsync(request))
@@ -31,6 +31,21 @@ namespace RogueOne.Logic
                 response.EnsureSuccessStatusCode();
                 var body = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<UserDescription>(body) ?? new();
+            }
+        }
+        public async Task<UserDetails> GetUserDetailsFromUserId(string userId)
+        {
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri($"{_rapidApiUri}reels?id={userId}&count=5")
+            };
+
+            using (var response = await _httpClient.SendAsync(request))
+            {
+                response.EnsureSuccessStatusCode();
+                var body = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<UserDetails>(body) ?? new();
             }
         }
     }

@@ -25,7 +25,13 @@ namespace RogueOne.Controllers
 
         public async Task<UserDescription> GetUserId(string username)
         {
-            UserDescription userDetails = await _instagramLooter.GetUserId(username);
+            UserDescription userDescription = await _instagramLooter.GetUserId(username);
+
+            return (userDescription);
+        }
+        public async Task<UserDetails> GetUserDetailsFromUserId(string userId)
+        {
+            UserDetails userDetails = await _instagramLooter.GetUserDetailsFromUserId(userId);
 
             return (userDetails);
         }
