@@ -27,23 +27,25 @@ namespace RogueOne.Controllers
         {
             UserDescription userDescription = await _instagramLooter.GetUserId(username);
 
-            return (userDescription);
+            return userDescription;
         }
         public async Task<UserDetails> GetUserDetailsFromUserId(string userId)
         {
             UserDetails userDetails = await _instagramLooter.GetUserDetailsFromUserId(userId);
 
-            return (userDetails);
+            return userDetails;
         }
-        public IActionResult Privacy()
+        public async Task<MetaList> GetMetaListFromUserId(string userId)
         {
-            return View();
-        }
+            MetaList metaList = await _instagramLooter.GetMetaListFromUserId(userId);
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+            return metaList;
+        }
+        public async Task<ReelListDetails> GetReelsFromUserId(string userId)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            ReelListDetails list = await _instagramLooter.GetReelsFromUserId(userId);
+
+            return list;
         }
     }
 }

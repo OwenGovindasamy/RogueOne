@@ -1,4 +1,5 @@
-﻿using RogueOne.ViewModels;
+﻿using RogueOne.Models;
+using RogueOne.ViewModels;
 
 namespace RogueOne.Interfaces
 {
@@ -6,5 +7,7 @@ namespace RogueOne.Interfaces
     {
         Task<UserDescription> GetUserId(string username);
         Task<UserDetails> GetUserDetailsFromUserId(string userId);
+        Task<MetaList> GetMetaListFromUserId(string userId);
+        Task<ReelListDetails> GetReelsFromUserId(string userId);
     }
 }

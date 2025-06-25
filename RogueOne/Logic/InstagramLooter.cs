@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using RogueOne.Interfaces;
+using RogueOne.Models;
 using RogueOne.ViewModels;
 
 namespace RogueOne.Logic
@@ -47,6 +48,44 @@ namespace RogueOne.Logic
                 var body = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<UserDetails>(body) ?? new();
             }
+        }
+        public async Task<MetaList> GetMetaListFromUserId(string userId)
+        {
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri($"{_rapidApiUri}user-feeds2?id={userId}&count=10")
+            };
+
+            using (var response = await _httpClient.SendAsync(request))
+            {
+                response.EnsureSuccessStatusCode();
+                var body = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<MetaList>(body) ?? new();
+            }
+        }
+        public async Task<ReelListDetails> GetReelsFromUserId(string userId)
+        {
+            try
+            {
+                var request = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Get,
+                    RequestUri = new Uri($"{_rapidApiUri}reels?id={userId}&count=10")
+                };
+
+                using (var response = await _httpClient.SendAsync(request))
+                {
+                    response.EnsureSuccessStatusCode();
+                    var body = await response.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<ReelListDetails>(body) ?? new();
+                }
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+
         }
     }
 }

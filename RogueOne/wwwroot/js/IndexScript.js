@@ -12,24 +12,25 @@
         }
     },
 
-    getUserDetailsFromUserId: async function (userId) {
-        try {
-            const response = await axios.get(`/Home/GetUserDetailsFromUserId?userId=${userId}`);
-            indexScript.displayUserDetails(response.data.items);
-            $('#captionsBox').fadeIn();
-        }
-        catch (error) {
-            console.log('getUserId', error);
-        }
-    },
+    //getUserDetailsFromUserId: async function (userId) {
+    //    try {
+    //        const response = await axios.get(`/Home/GetUserDetailsFromUserId?userId=${userId}`);
+    //        indexScript.displayUserDetails(response.data.items);
+    //        $('#captionsBox').fadeIn();
+    //    }
+    //    catch (error) {
+    //        console.log('getUserId', error);
+    //    }
+    //},
 
     displayUserDetails: function (data) {
 
         data.forEach((item) =>
         {
+            console.log('new item', item.media.videoVersions.url)
             $('#captionsRow').append(`
                 <div class='col-3' >
-                    <p>${item.media.caption.text}</p>
+                    <an href='${item.media.videoVersions.url}'>${item.media.videoVersions.url}</p>
                 </div>`);
         })
     },
@@ -38,11 +39,24 @@
 
         let username = $('#username').val();
         let user = await indexScript.getUserId(username);
-
+        console.log('user', user)
         $('#userInfo').html(`
             <p><strong>Username:</strong> ${user.username}</p>
             <p><strong>Attempts:</strong> ${user.attempts}</p>
-            <button class='btn btn-primary' onclick='indexScript.getUserDetailsFromUserId(${user.userId})'>View more</button>
+            <button class='btn btn-primary' onclick='indexScript.getReelsFromUserId(${user.userId})'>View more</button>
         `);
-    }
+    },
+
+    getReelsFromUserId: async function (userId) {
+        try {
+            const response = await axios.get(`/Home/GetReelsFromUserId?userId=${userId}`);
+            console.log('lklkll', response.data.items)
+            indexScript.displayUserDetails(response.data.items);
+            $('#captionsBox').fadeIn();
+            
+        }
+        catch (error) {
+            console.log('getUserId', error);
+        }
+    },
 }
