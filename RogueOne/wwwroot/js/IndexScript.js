@@ -28,29 +28,47 @@
         data.forEach((item) =>
         {
             console.log('new item', item.media.videoVersions.url)
-            $('#captionsRow').append(`
+            if (typeof user !== 'undefined') {
+                $('#captionsRow').append(`
                 <div class='col-3' >
                     <an href='${item.media.videoVersions.url}'>${item.media.videoVersions.url}</p>
                 </div>`);
+            } else {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'User not found. Please check the username.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            }
+           
         })
     },
 
-    getPopulateUserInfo: async function() {
-
+    getPopulateUserInfo: async function () {
         let username = $('#username').val();
         let user = await indexScript.getUserId(username);
-        console.log('user', user)
-        $('#userInfo').html(`
+
+        if (typeof user !== 'undefined') { // Corrected check
+            $('#userInfoBox').fadeIn();
+            $('#userInfo').html(`
             <p><strong>Username:</strong> ${user.username}</p>
             <p><strong>Attempts:</strong> ${user.attempts}</p>
             <button class='btn btn-primary' onclick='indexScript.getReelsFromUserId(${user.userId})'>View more</button>
         `);
+        } else {
+            Swal.fire({
+                title: 'Error!',
+                text: 'User not found. Please check the username.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        }
     },
 
     getReelsFromUserId: async function (userId) {
         try {
             const response = await axios.get(`/Home/GetReelsFromUserId?userId=${userId}`);
-            console.log('lklkll', response.data.items)
             indexScript.displayUserDetails(response.data.items);
             $('#captionsBox').fadeIn();
             
