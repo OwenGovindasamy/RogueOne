@@ -49,7 +49,7 @@
         let username = $('#username').val();
         let user = await indexScript.getUserId(username);
 
-        if (typeof user !== 'undefined') { // Corrected check
+        if (typeof user !== 'undefined') { 
             $('#userInfoBox').fadeIn();
             $('#userInfo').html(`
             <p><strong>Username:</strong> ${user.username}</p>
